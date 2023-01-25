@@ -31,4 +31,4 @@ jobs:
 
       - name: Print variables
         run: |
-          echo  "ENV_CONTAINER_ID: ${{ steps.ga_env.outputs.ENV_CONTAINER_ID }}"
+          echo  "ENV_CONTAINER_ID: $ENV_CONTAINER_ID"
