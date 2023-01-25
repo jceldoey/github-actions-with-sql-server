@@ -8,9 +8,9 @@ env:
   VERSION: 1.0.0
 
 jobs:
-  initiate-and-run:
+  initiate-and-run-mssql:
     name: Initiate
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Start SQL Server in Docker
@@ -24,5 +24,15 @@ jobs:
           echo "ENV_CONTAINER_ID=$(docker ps --all --filter status=running --no-trunc --format "{{.ID}}")" >> $GITHUB_ENV
 
       - name: Print variables
+        run: |
+          echo  "ENV_CONTAINER_ID: $ENV_CONTAINER_ID"
+
+  connect-to-mssql:
+    name: Connect to database
+    needs: initiate-and-run-mssql
+    runs-on: windows-latest
+
+    steps:
+      - name: Print variables from new job
         run: |
           echo  "ENV_CONTAINER_ID: $ENV_CONTAINER_ID"
