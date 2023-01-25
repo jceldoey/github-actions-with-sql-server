@@ -1,0 +1,34 @@
+name: Initiate and run microsoft sql server
+
+on:
+  push:
+    branches:
+      - "**"
+
+env:
+  VERSION: 1.0.0
+
+
+jobs:
+  initiate-and-run:
+    name: Initiate
+    runs-on: windows-latest
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA=Y
+          SA_PASSWORD=myTop!SecretSalmon1
+
+    steps:
+      - name: Set up additional variables
+        id: ga_env
+        run: |
+          echo "ENV_CONTAINER_ID=$(docker ps --all --filter status=running --no-trunc --format "{{.ID}}")" >> $GITHUB_ENV
+
+      - name: Print variables
+        run: |
+          echo  "ENV_CONTAINER_ID: ${{ steps.ga_env.outputs.ENV_CONTAINER_ID }}"
