@@ -16,7 +16,8 @@ jobs:
       - name: Start SQL Server in Docker
         id: docker_start
         run: |
-          docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=myTop!SecretSalmon1" --name "farmer" -p 1433:1433 -v farmerdata:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2019-latest
+          docker network create farmernet
+          docker run --network farmernet -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=myTop!SecretSalmon1" --name "farmer" -p 1433:1433 -v farmerdata:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2019-latest
 
       - name: Set up additional variables
         id: ga_env
@@ -36,6 +37,7 @@ jobs:
       - name: Print variables from new job
         shell: bash
         run: |
+          docker network connect farmernet farmer
           docker exec -it farmer "bash"
           /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'myTop!SecretSalmon1'
           select name from sys.databases
