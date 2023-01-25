@@ -1,1 +1,1 @@
-# guthub-actions-with-sql-server
+# github-actions-with-sql-server
