@@ -20,8 +20,8 @@ jobs:
         ports:
           - 1433:1433
         env:
-          ACCEPT_EULA=Y
-          SA_PASSWORD=myTop!SecretSalmon1
+          ACCEPT_EULA: Y
+          SA_PASSWORD: myTop!SecretSalmon1
 
     steps:
       - name: Set up additional variables
