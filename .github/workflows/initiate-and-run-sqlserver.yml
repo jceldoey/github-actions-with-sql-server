@@ -34,5 +34,11 @@ jobs:
 
     steps:
       - name: Print variables from new job
+        shell: bash
         run: |
-          echo  "ENV_CONTAINER_ID: $ENV_CONTAINER_ID"
+          docker exec -it farmer "bash"
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'myTop!SecretSalmon1'
+          select name from sys.databases
+          go
+          exit
+          exit
