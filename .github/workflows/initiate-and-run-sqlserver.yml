@@ -12,7 +12,7 @@ env:
 jobs:
   initiate-and-run:
     name: Initiate
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     services:
       sqlserver:
