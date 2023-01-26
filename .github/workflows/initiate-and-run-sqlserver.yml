@@ -19,10 +19,6 @@ jobs:
           docker network create farmernet
           docker run --network farmernet --network-alias farmernetsql -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=myTop!SecretSalmon1" --name farmer -p 1433:1433 -v farmerdata:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2019-latest
 
-      - name: Sleep for 5 seconds
-        run: Start-Sleep -s 5
-        shell: powershell
-
       - name: Set up additional variables
         id: ga_env
         run: |
