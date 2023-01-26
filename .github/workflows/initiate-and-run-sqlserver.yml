@@ -19,6 +19,10 @@ jobs:
           docker network create farmernet
           docker run --network farmernet --network-alias farmernetsql -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=myTop!SecretSalmon1" --name farmer -p 1433:1433 -v farmerdata:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2019-latest
 
+      - name: Sleep for 5 seconds
+        run: Start-Sleep -s 5
+        shell: powershell
+
       - name: Set up additional variables
         id: ga_env
         run: |
@@ -28,13 +32,32 @@ jobs:
         run: |
           echo  "ENV_CONTAINER_ID: $ENV_CONTAINER_ID"
 
+      - name: Run docker exec
+        shell: bash
+        run: docker exec -it farmer "bash"
+
+      - name: Run sqlcmd
+        shell: bash
+        run: |
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'myTop!SecretSalmon1'
+          go
+
+      - name: Run exit 1
+        shell: bash
+        run: exit
+
+
+      - name: Run exit 2
+        shell: bash
+        run: exit
+
   connect-to-mssql:
     name: Connect to database
     needs: initiate-and-run-mssql
     runs-on: windows-latest
 
     steps:
-      - name: Print variables from new job
+      - name: Run database operations
         shell: bash
         run: |
           docker network connect farmernet farmernetsql
